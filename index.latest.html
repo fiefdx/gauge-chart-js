@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Gauge Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="./gauge.latest.js"></script>
+</head>
+
+<body>
+    <div id="canvas-holder" style="width:30%">
+        <canvas id="chart-speed"></canvas>
+    </div>
+    <div id="canvas-holder" style="width:30%">
+        <canvas id="chart-direction"></canvas>
+    </div>
+    <button id="randomizeData">Randomize Data</button>
+    <script>
+        Chart.defaults.animation.duration = 0;
+        Chart.defaults.defaultFontSize = 12;
+
+        var configSpeed = {
+            "type": "gauge",
+            "data": {
+                "datasets": [
+                    {
+                        "data": [],
+                        "backgroundColor": [],
+                        "borderWidth": 0,
+                        "hoverBackgroundColor": [],
+                        "hoverBorderWidth": 0
+                    }
+                ],
+                "current": 135,
+            },
+            "options": {
+                "panel": {
+                    "min": 0,
+                    "max": 240,
+                    "tickInterval": 1,
+                    "tickColor": "rgb(0, 0, 0)",
+                    "tickOuterRadius": 99,
+                    "tickInnerRadius": 95,
+                    "scales": [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180, 190, 200, 210, 220, 230, 240],
+                    "scaleColor": "rgb(0, 0, 0)",
+                    "scaleBackgroundColor": "rgb(105, 125, 151)",
+                    "scaleTextRadius": 80,
+                    "scaleTextSize": 8,
+                    "scaleTextColor": "rgba(0, 0, 0, 1)",
+                    "scaleOuterRadius": 99,
+                    "scaleInnerRadius": 93,
+                },
+                "needle": {
+                    "lengthRadius": 100,
+                    "circleColor": "rgba(188, 188, 188, 1)",
+                    "color": "rgba(180, 0, 0, 0.8)",
+                    "circleRadius": 7,
+                    "width": 5,
+                },
+                "cutoutPercentage": 90,
+                "rotation": (1/2+1/3)*Math.PI,
+                "circumference": 2*Math.PI*2/3,
+                "legend": {
+                    "display": false,
+                    "text": "legend"
+                },
+                "tooltips": {
+                    "enabled": false
+                },
+                "title": {
+                    "display": true,
+                    "text": "speed",
+                    "position": "bottom"
+                },
+                "animation": {
+                    "animateRotate": false,
+                    "animateScale": false
+                },
+                "hover": {
+                    "mode": null
+                }
+            }
+        };
+
+        var configDirection = {
+            "type": "gauge",
+            "data": {
+                "datasets": [
+                    {
+                        "data": [],
+                        "backgroundColor": [],
+                        "borderWidth": 0,
+                        "hoverBackgroundColor": [],
+                        "hoverBorderWidth": 0
+                    }
+                ],
+                "current": 90,
+            },
+            "options": {
+                "panel": {
+                    "min": 0,
+                    "max": 180,
+                    "tickInterval": 1,
+                    "tickColor": "rgb(0, 0, 0)",
+                    "tickOuterRadius": 99,
+                    "tickInnerRadius": 95,
+                    "scales": [90, 80, 70, 60, 50, 40, 30, 20, 10, 0, 10, 20, 30, 40, 50, 60, 70, 80, 90],
+                    "scaleColor": "rgb(0, 0, 0)",
+                    "scaleBackgroundColor": "rgb(105, 125, 151)",
+                    "scaleTextRadius": 80,
+                    "scaleTextSize": 8,
+                    "scaleTextColor": "rgba(0, 0, 0, 1)",
+                    "scaleOuterRadius": 99,
+                    "scaleInnerRadius": 93,
+                },
+                "needle": {
+                    "lengthRadius": 100,
+                    "circleColor": "rgba(188, 188, 188, 1)",
+                    "color": "rgba(180, 0, 0, 0.8)",
+                    "circleRadius": 7,
+                    "width": 5,
+                },
+                "cutoutPercentage": 90,
+                "rotation": -Math.PI,
+                "circumference": Math.PI,
+                "legend": {
+                    "display": false,
+                    "text": "legend"
+                },
+                "tooltips": {
+                    "enabled": false
+                },
+                "title": {
+                    "display": true,
+                    "text": "direction",
+                    "position": "bottom"
+                },
+                "animation": {
+                    "animateRotate": false,
+                    "animateScale": false
+                },
+                "hover": {
+                    "mode": null
+                }
+            }
+        };
+
+        window.onload = function() {
+            var ctx = document.getElementById('chart-speed').getContext('2d');
+            window.speed = new Chart(ctx, configSpeed);
+            var ctx = document.getElementById('chart-direction').getContext('2d');
+            window.direction = new Chart(ctx, configDirection);
+        };
+
+        document.getElementById('randomizeData').addEventListener('click', function() {
+            configSpeed.data.current = Math.round(Math.random() * 240);
+            window.speed.update();
+            configDirection.data.current = Math.round(Math.random() * 180);
+            window.direction.update();
+        });
+    </script>
+</body>
+
+</html>
